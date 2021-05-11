@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="G:/GIT_Repositories/GIT_crit_files/nba_salary.sqlite" readonly="0" foreign_keys="" case_sensitive_like="" temp_store="" wal_autocheckpoint="" synchronous=""/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="999"/><column_width id="4" width="0"/></tab_structure><tab_browse><current_table name="0,0:"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">with s_avg as(
+select
+round(avg(season17_18 *.000001)) as avg_salary
+from NBA_season1718_salary
+)
+,p_list as (SELECT
+round(season17_18 *.000001) as avg_p_s
+,season17_18 as a_salary
+,Player
+,tm
+FROM NBA_season1718_salary)
+,avg_p_list as (
+SELECT
+a.Player
+,a.tm
+,avg_p_s
+,a_salary
+from p_list a
+join s_avg b on a.avg_p_s = b.avg_salary)
+SELECT
+MAX(season17_18) AS SALARY
+,Player
+,TM
+,'MAX' AS SALARY_CAT
+FROM NBA_season1718_salary
+UNION
+SELECT
+MIN(season17_18) AS SALARY
+,Player
+,TM
+,'MIN' AS SALARY_CAT
+FROM NBA_season1718_salary
+UNION
+SELECT 
+a_salary as Salary
+,Player
+,TM
+,'AVG' AS SALARY_CAT
+FROM avg_p_list
+</sql><sql name="SQL 2">with s_avg as(
+select
+round(avg(season17_18 *.000001)) as avg_salary
+from NBA_season1718_salary
+)
+,p_list as (SELECT
+round(season17_18 *.000001) as avg_p_s
+,Player
+,tm
+FROM NBA_season1718_salary)
+,avg_p_list as (
+SELECT
+a.Player
+,a.tm
+,avg_p_s
+from p_list a
+join s_avg b on a.avg_p_s = b.avg_salary)
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
